@@ -1,4 +1,3 @@
-import math
 import numpy as np
 from vispy import gloo
 from vispy import app
@@ -11,6 +10,9 @@ from pcm_buffer import PCMBuffer
 
 class AlsaCanvas(app.Canvas):
     def __init__(self, device, sample_rate, period, window_size):
+        self.sample_rate = sample_rate
+        self.window_size = window_size
+
         self.pcm_buffer = PCMBuffer(
             device=device, sample_rate=sample_rate, period=period, window_size=window_size)
 
@@ -30,17 +32,8 @@ class AlsaCanvas(app.Canvas):
     def on_resize(self, event):
         gloo.set_viewport(0, 0, *event.physical_size)
 
-    def on_mouse_wheel(self, event):
-        dx = np.sign(event.delta[1]) * .05
-        scale_x, scale_y = self.program['u_scale']
-        scale_x_new, scale_y_new = (scale_x * math.exp(2.5*dx),
-                                    scale_y * math.exp(0.0*dx))
-        self.program['u_scale'] = (max(1, scale_x_new), max(1, scale_y_new))
-        self.update()
-
     def on_draw(self, event):
-        gloo.clear()
-        self.program.draw('line_strip')
+        pass
 
     def on_data(self, event):
         pass

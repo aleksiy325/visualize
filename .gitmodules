@@ -1,0 +1,3 @@
+[submodule "teensy/FastLED"]
+	path = teensy/FastLED
+	url = https://github.com/FastLED/FastLED.git
